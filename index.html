@@ -1,0 +1,718 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wanderlust - Your Dream Vacation</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Inter Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        /* Custom Styles */
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc; /* light gray background */
+            color: #1e293b; /* dark slate text */
+        }
+
+        /* Define yellow-green theme */
+        :root {
+            --color-primary: #84cc16; /* lime-500 */
+            --color-primary-dark: #65a30d; /* lime-600 */
+            --color-secondary: #facc15; /* yellow-400 */
+            --color-text: #334155; /* slate-700 */
+            --color-bg: #ffffff;
+        }
+        
+        /* Theme colors */
+        .bg-primary { background-color: var(--color-primary); }
+        .text-primary { color: var(--color-primary); }
+        .border-primary { border-color: var(--color-primary); }
+        .hover\:bg-primary-dark:hover { background-color: var(--color-primary-dark); }
+        
+        .bg-secondary { background-color: var(--color-secondary); }
+        .text-secondary { color: var(--color-secondary); }
+
+        /* Hero background */
+        .hero-bg {
+            background-image: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('/img/boat-looking-mountains.jpg');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        /* Section heading style */
+        .section-heading {
+            @apply text-3xl md:text-4xl font-bold text-center mb-4;
+        }
+        .section-subheading {
+            @apply text-lg text-gray-600 text-center mb-12 max-w-2xl mx-auto;
+        }
+        
+        /* Card styles */
+        .content-card {
+            @apply bg-white rounded-lg shadow-lg overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+        }
+        
+        /* Scroll Animation Utilities */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+        
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Staggered animation for grid items */
+        .reveal-stagger > * {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+        }
+        
+        .reveal-stagger.visible > * {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* This is a common pattern to apply delays */
+        .reveal-stagger.visible > *:nth-child(1) { transition-delay: 0.1s; }
+        .reveal-stagger.visible > *:nth-child(2) { transition-delay: 0.2s; }
+        .reveal-stagger.visible > *:nth-child(3) { transition-delay: 0.3s; }
+        .reveal-stagger.visible > *:nth-child(4) { transition-delay: 0.4s; }
+        .reveal-stagger.visible > *:nth-child(5) { transition-delay: 0.5s; }
+        .reveal-stagger.visible > *:nth-child(6) { transition-delay: 0.6s; }
+        .reveal-stagger.visible > *:nth-child(7) { transition-delay: 0.7s; }
+        .reveal-stagger.visible > *:nth-child(8) { transition-delay: 0.8s; }
+        .reveal-stagger.visible > *:nth-child(9) { transition-delay: 0.9s; }
+        .reveal-stagger.visible > *:nth-child(10) { transition-delay: 1.0s; }
+
+    </style>
+</head>
+<body class="antialiased">
+
+    <!-- Header & Navigation -->
+    <header class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+        <nav id="navbar" class="bg-white/30 backdrop-blur-lg shadow-md">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="flex justify-between items-center h-20">
+                    <!-- Logo -->
+                    <a href="#home" class="flex-shrink-0 flex items-center">
+                        <span class="text-3xl font-extrabold text-primary">Wanderlust</span>
+                    </a>
+                    
+                    <!-- Desktop Navigation -->
+                    <div class="hidden md:flex md:items-center md:space-x-2 lg:space-x-4">
+                        <a href="#home" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Home</a>
+                        <a href="#destination" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Destination</a>
+                        <a href="#room" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Room</a>
+                        <a href="#hotel" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Hotel</a>
+                        <a href="#testimonial" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">Testimonial</a>
+                        <a href="#about" class="text-gray-700 hover:text-primary px-3 py-2 rounded-md text-sm font-medium transition-colors">About Us</a>
+                        <a href="#contact" class="bg-primary text-white hover:bg-primary-dark px-4 py-2 rounded-full text-sm font-medium transition-colors shadow-lg">Contact Us</a>
+                    </div>
+                    
+                    <!-- Mobile Menu Button -->
+                    <div class="md:hidden flex items-center">
+                        <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-primary hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-primary">
+                            <span class="sr-only">Open main menu</span>
+                            <!-- Hamburger Icon -->
+                            <svg id="menu-icon-open" class="block h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                            </svg>
+                            <!-- Close Icon -->
+                            <svg id="menu-icon-close" class="hidden h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Mobile Menu, show/hide based on menu state. -->
+            <div id="mobile-menu" class="hidden md:hidden bg-white/80 backdrop-blur-lg shadow-lg">
+                <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                    <a href="#home" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">Home</a>
+                    <a href="#destination" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">Destination</a>
+                    <a href="#room" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">Room</a>
+                    <a href="#hotel" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">Hotel</a>
+                    <a href="#testimonial" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">Testimonial</a>
+                    <a href="#about" class="text-gray-700 hover:text-primary block px-3 py-2 rounded-md text-base font-medium transition-colors">About Us</a>
+                    <a href="#contact" class="bg-primary text-white hover:bg-primary-dark block px-3 py-2 rounded-md text-base font-medium transition-colors mt-2">Contact Us</a>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero-bg h-screen flex items-center justify-center text-white pt-20">
+            <div class="text-center reveal visible"> <!-- Start visible on load -->
+                <h1 class="text-4xl sm:text-5xl md:text-7xl font-extrabold mb-4 drop-shadow-lg">
+                    Find Your Next <span class="text-secondary">Adventure</span>
+                </h1>
+                <p class="text-lg sm:text-xl md:text-2xl mb-8 max-w-3xl mx-auto drop-shadow-md">
+                    Discover amazing places at exclusive prices. Your dream vacation is just a click away.
+                </p>
+                <a href="#destination" class="bg-primary text-white hover:bg-primary-dark text-lg font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                    Explore Now
+                </a>
+            </div>
+        </section>
+
+        <!-- Destination Section -->
+        <section id="destination" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <h2 class="section-heading text-primary">Popular Destinations</h2>
+                    <p class="section-subheading">From ancient ruins to bustling cities, discover the world's most amazing places with us.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8 reveal-stagger">
+                    <!-- Country Cards -->
+                    <!-- Card 1: Italy -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/italy rome.jpg" alt="Italy" onerror="this.src='https://placehold.co/400x300?text=Italy'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Italy</h3>
+                            <p class="text-gray-600 text-sm mb-3">Rome, Venice, Florence</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 2: England -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/double-decker-london.jpg" alt="England" onerror="this.src='https://placehold.co/400x300?text=England'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">England</h3>
+                            <p class="text-gray-600 text-sm mb-3">London, Manchester</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 3: France -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/france.jpg" alt="France" onerror="this.src='https://placehold.co/400x300?text=France'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">France</h3>
+                            <p class="text-gray-600 text-sm mb-3">Paris, Nice, Lyon</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 4: Turkey -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/Istanbul_Turkey.jpg" alt="Turkey" onerror="this.src='https://placehold.co/400x300?text=Turkey'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Turkey</h3>
+                            <p class="text-gray-600 text-sm mb-3">Istanbul, Cappadocia</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 5: Emirates -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/emirates.jpg" alt="Emirates" onerror="this.src='https://placehold.co/400x300?text=Emirates'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Emirates</h3>
+                            <p class="text-gray-600 text-sm mb-3">Dubai, Abu Dhabi</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 6: China -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/china-beijing.jpg" alt="China" onerror="this.src='https://placehold.co/400x300?text=China'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">China</h3>
+                            <p class="text-gray-600 text-sm mb-3">Beijing, Shanghai</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 7: Japan -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/japan-fujie.jpg" alt="Japan" onerror="this.src='https://placehold.co/400x300?text=Japan'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Japan</h3>
+                            <p class="text-gray-600 text-sm mb-3">Tokyo, Kyoto, Osaka</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 8: Morocco -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/morocco.jpg" alt="Morocco" onerror="this.src='https://placehold.co/400x300?text=Morocco'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Morocco</h3>
+                            <p class="text-gray-600 text-sm mb-3">Marrakech, Casablanca</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 9: Brazil -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/brazil-rio-de-janeiro.jpg" alt="Brazil" onerror="this.src='https://placehold.co/400x300?text=Brazil'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Brazil</h3>
+                            <p class="text-gray-600 text-sm mb-3">Rio de Janeiro</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                    <!-- Card 10: Malaysia -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/malaysia.jpg" alt="Malaysia" onerror="this.src='https://placehold.co/400x300?text=Malaysia'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800">Malaysia</h3>
+                            <p class="text-gray-600 text-sm mb-3">Kuala Lumpur</p>
+                            <a href="#" class="text-primary hover:text-primary-dark font-medium transition-colors">Explore &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Luxury Room Section -->
+        <section id="room" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <h2 class="section-heading">Our Luxury Rooms</h2>
+                    <p class="section-subheading">Experience unparalleled comfort and style. Our rooms are designed to be your home away from home.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 reveal-stagger">
+                    <!-- Room Cards -->
+                    <div class="content-card col-span-1 md:col-span-2 lg:col-span-1">
+                        <img class="w-full h-64 object-cover" src="/img/deluxe suite.jpg" alt="Deluxe Suite" onerror="this.src='https://placehold.co/600x400?text=Deluxe+Suite'">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-2xl font-bold text-gray-800">Deluxe Suite</h3>
+                                <span class="text-xl font-bold text-primary">$299/night</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Ocean view, king-size bed, and a private balcony.</p>
+                            <a href="#" class="bg-primary text-white hover:bg-primary-dark text-sm font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-md">Book Now</a>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img class="w-full h-64 object-cover" src="/img/executive_room.jpg" alt="Executive Room" onerror="this.src='https://placehold.co/600x400?text=Executive+Room'">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-2xl font-bold text-gray-800">Executive Room</h3>
+                                <span class="text-xl font-bold text-primary">$199/night</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">City view, work desk, and complimentary breakfast.</p>
+                            <a href="#" class="bg-primary text-white hover:bg-primary-dark text-sm font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-md">Book Now</a>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img class="w-full h-64 object-cover" src="/img/family_bungalow.jpg" alt="Family Bungalow" onerror="this.src='https://placehold.co/600x400?text=Family+Bungalow'">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-2xl font-bold text-gray-800">Family Bungalow</h3>
+                                <span class="text-xl font-bold text-primary">$349/night</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Two bedrooms, private pool, and garden access.</p>
+                            <a href="#" class="bg-primary text-white hover:bg-primary-dark text-sm font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-md">Book Now</a>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img class="w-full h-64 object-cover" src="/img/cozy-double-room.jpg" alt="Cozy Double" onerror="this.src='https://placehold.co/600x400?text=Cozy+Double'">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-2xl font-bold text-gray-800">Cozy Double</h3>
+                                <span class="text-xl font-bold text-primary">$149/night</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Perfect for couples, comfortable and elegant.</p>
+                            <a href="#" class="bg-primary text-white hover:bg-primary-dark text-sm font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-md">Book Now</a>
+                        </div>
+                    </div>
+                    <div class="content-card">
+                        <img class="w-full h-64 object-cover" src="/img/Penthouse-Suite.jpg" alt="Penthouse" onerror="this.src='https://placehold.co/600x400?text=Penthouse'">
+                        <div class="p-6">
+                            <div class="flex justify-between items-center mb-2">
+                                <h3 class="text-2xl font-bold text-gray-800">The Penthouse</h3>
+                                <span class="text-xl font-bold text-primary">$799/night</span>
+                            </div>
+                            <p class="text-gray-600 mb-4">Ultimate luxury, panoramic views, private butler.</p>
+                            <a href="#" class="bg-primary text-white hover:bg-primary-dark text-sm font-bold py-2 px-5 rounded-full transition-all duration-300 shadow-md">Book Now</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Hotel Section -->
+        <section id="hotel" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <h2 class="section-heading text-primary">Featured Hotels</h2>
+                    <p class="section-subheading">Handpicked hotels that offer the best in class service, comfort, and location.</p>
+                </div>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 lg:gap-8 reveal-stagger">
+                    <!-- Hotel Cards -->
+                    <!-- Star Rating Component -->
+                    <template id="star-rating">
+                        <div class="flex items-center text-secondary">
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.09l6.572-.955L10 0l2.939 6.135 6.572.955-4.756 4.455 1.123 6.545z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.09l6.572-.955L10 0l2.939 6.135 6.572.955-4.756 4.455 1.123 6.545z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.09l6.572-.955L10 0l2.939 6.135 6.572.955-4.756 4.455 1.123 6.545z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.09l6.572-.955L10 0l2.939 6.135 6.572.955-4.756 4.455 1.123 6.545z"/></svg>
+                            <svg class="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 7.09l6.572-.955L10 0l2.939 6.135 6.572.955-4.756 4.455 1.123 6.545z"/></svg>
+                            <span class="text-gray-600 text-xs ml-1">(5.0)</span>
+                        </div>
+                    </template>
+                    
+                    <!-- Hotel 1 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/plaza-athenee.jpg" alt="Grand Plaza" onerror="this.src='https://placehold.co/400x300?text=Grand+Plaza'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">Grand Plaza</h3>
+                            <p class="text-gray-600 text-sm mb-3">Paris, France</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 2 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/aerial-sunset-pool.jpg" alt="Sunset Resort" onerror="this.src='https://placehold.co/400x300?text=Sunset+Resort'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">Sunset Resort</h3>
+                            <p class="text-gray-600 text-sm mb-3">Bali, Indonesia</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 3 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/copacabana.jpg" alt="Ocean Breeze" onerror="this.src='https://placehold.co/400x300?text=Ocean+Breeze'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">copacabana</h3>
+                            <p class="text-gray-600 text-sm mb-3">rio de janeiro, BRAZIL</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 4 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/Sultanahmet hotel.jpg" alt="Mountain View" onerror="this.src='https://placehold.co/400x300?text=Mountain+View'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">Sultanahmet</h3>
+                            <p class="text-gray-600 text-sm mb-3">Estanbul Turky</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 5 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/ice-14061-de50d2-987304.jpg" alt="City Lights" onerror="this.src='https://placehold.co/400x300?text=City+Lights'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">City Lights</h3>
+                            <p class="text-gray-600 text-sm mb-3">Tokyo, Japan</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 6 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/hotel_ritz.jpg" alt="The Ritz" onerror="this.src='https://placehold.co/400x300?text=The+Ritz'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">The Ritz</h3>
+                            <p class="text-gray-600 text-sm mb-3">London, England</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 7 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/Atlantis-Palm.jpg" alt="Desert Palm" onerror="this.src='https://placehold.co/400x300?text=Desert+Palm'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">atlantis Palm</h3>
+                            <p class="text-gray-600 text-sm mb-3">Dubai, Emirates</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 8 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="img/villa rosa.jpg" alt="Villa Rosa" onerror="this.src='https://placehold.co/400x300?text=Villa+Rosa'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">Villa Rosa</h3>
+                            <p class="text-gray-600 text-sm mb-3">Rome, Italy</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 9 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/china hotel.jpg" alt="The Regency" onerror="this.src='https://placehold.co/400x300?text=The+Regency'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">The Regency</h3>
+                            <p class="text-gray-600 text-sm mb-3">beijiing, CHINA</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                    <!-- Hotel 10 -->
+                    <div class="content-card">
+                        <img class="w-full h-48 object-cover" src="/img/Hotels-in-Morocco.jpg" alt="Marina Bay" onerror="this.src='https://placehold.co/400x300?text=Marina+Bay'">
+                        <div class="p-5">
+                            <h3 class="text-xl font-bold text-gray-800 truncate">Marina Bay</h3>
+                            <p class="text-gray-600 text-sm mb-3">Morrocco</p>
+                            <div class="star-rating-container"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Testimonial Section -->
+        <section id="testimonial" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <h2 class="section-heading">What Our Clients Say</h2>
+                    <p class="section-subheading">We take pride in creating unforgettable experiences for our travelers. Here's what they have to say.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 reveal-stagger">
+                    <!-- Testimonial 1 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <p class="text-gray-600 italic text-lg mb-6">"The entire trip was flawlessly organized. From the flights to the hotels, everything was perfect. Wanderlust made our dream vacation to Italy a reality!"</p>
+                        <div class="flex items-center">
+                            <img class="w-14 h-14 rounded-full object-cover" src="https://placehold.co/100x100/ec4899/ffffff?text=JS" alt="Jane Smith" onerror="this.src='https://placehold.co/100x100?text=JS'">
+                            <div class="ml-4">
+                                <p class="font-bold text-gray-800">Jane Smith</p>
+                                <p class="text-sm text-primary">Traveled to Italy</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 2 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <p class="text-gray-600 italic text-lg mb-6">"I was impressed by the customer service. They were responsive and helped me plan a complex multi-city trip to Japan. Highly recommended!"</p>
+                        <div class="flex items-center">
+                            <img class="w-14 h-14 rounded-full object-cover" src="https://placehold.co/100x100/22d3ee/ffffff?text=MD" alt="Mark Johnson" onerror="this.src='https://placehold.co/100x100?text=MD'">
+                            <div class="ml-4">
+                                <p class="font-bold text-gray-800">Mark Johnson</p>
+                                <p class="text-sm text-primary">Traveled to Japan</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Testimonial 3 -->
+                    <div class="bg-gray-50 p-8 rounded-xl shadow-lg border border-gray-100">
+                        <p class="text-gray-600 italic text-lg mb-6">"The luxury room we booked in Dubai was breathtaking, and we got it at a great price thanks to Wanderlust. Will be booking with them again!"</p>
+                        <div class="flex items-center">
+                            <img class="w-14 h-14 rounded-full object-cover" src="https://placehold.co/100x100/eab308/ffffff?text=SL" alt="Sarah Lee" onerror="this.src='https://placehold.co/100x100?text=SL'">
+                            <div class="ml-4">
+                                <p class="font-bold text-gray-800">Sarah Lee</p>
+                                <p class="text-sm text-primary">Traveled to Emirates</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- About Us Section -->
+        <section id="about" class="py-20 bg-gray-50">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                    <div class="reveal">
+                        <img class="rounded-xl shadow-2xl w-full h-full object-cover" style="max-height: 450px;" src="/img/our team.jpg" alt="Wanderlust Team" onerror="this.src='https://placehold.co/600x450?text=Our+Team'">
+                    </div>
+                    <div class="reveal">
+                        <h2 class="text-3xl md:text-4xl font-bold text-primary mb-4">About Wanderlust</h2>
+                        <h3 class="text-2xl font-semibold text-gray-800 mb-4">Crafting Your Perfect Journey</h3>
+                        <p class="text-gray-600 mb-4 leading-relaxed">
+                            Founded in 2010, Wanderlust was born from a passion for exploration and a desire to make travel accessible, seamless, and unforgettable. We believe that travel broadens the mind and enriches the soul.
+                        </p>
+                        <p class="text-gray-600 mb-6 leading-relaxed">
+                            Our mission is to provide you with curated travel experiences, from luxury getaways to adventurous treks. Our team of expert travel agents works tirelessly to find the best deals, the most comfortable hotels, and the most exciting destinations just for you.
+                        </p>
+                        <a href="#contact" class="bg-primary text-white hover:bg-primary-dark text-md font-bold py-3 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl">
+                            Meet the Team
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Us Section -->
+        <section id="contact" class="py-20 bg-white">
+            <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="reveal">
+                    <h2 class="section-heading">Get In Touch</h2>
+                    <p class="section-subheading">Have questions? Want to plan your next trip? Send us a message, and we'll get back to you shortly.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                    <!-- Contact Form -->
+                    <form action="#" method="POST" class="space-y-6 reveal">
+                        <div>
+                            <label for="name" class="block text-sm font-medium text-gray-700">Full Name</label>
+                            <input type="text" name="name" id="name" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                            <input type="email" name="email" id="email" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label for="subject" class="block text-sm font-medium text-gray-700">Subject</label>
+                            <input type="text" name="subject" id="subject" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary">
+                        </div>
+                        <div>
+                            <label for="message" class="block text-sm font-medium text-gray-700">Message</label>
+                            <textarea id="message" name="message" rows="5" required class="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-primary focus:border-primary"></textarea>
+                        </div>
+                        <div>
+                            <button type="submit" class="w-full bg-primary text-white hover:bg-primary-dark text-lg font-bold py-3 px-8 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl transform hover:scale-105">
+                                Send Message
+                            </button>
+                        </div>
+                    </form>
+                    
+                    <!-- Contact Info -->
+                    <div class="space-y-8 reveal">
+                        <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="bg-primary/20 text-primary p-3 rounded-full">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Our Address</h3>
+                                <p class="text-gray-600">123 Travel Lane, Adventure City, 90210</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="bg-primary/20 text-primary p-3 rounded-full">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Email Us</h3>
+                                <p class="text-gray-600">hello@wanderlust.com</p>
+                            </div>
+                        </div>
+                         <div class="flex items-start">
+                            <div class="flex-shrink-0">
+                                <span class="bg-primary/20 text-primary p-3 rounded-full">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path></svg>
+                                </span>
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="text-lg font-semibold text-gray-800">Call Us</h3>
+                                <p class="text-gray-600">+1 (234) 567-890</p>
+                            </div>
+                        </div>
+                        <div class="mt-6">
+                            <iframe 
+                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.719694464522!2d-118.4013919847841!3d34.05118798060644!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2bc04d7c07baf%3A0x67a3d3c63a6a9b4!2sBeverly%20Hills%20Sign!5e0!3m2!1sen!2sus!4v1678886400000!5m2!1sen!2sus" 
+                                width="100%" 
+                                height="250" 
+                                style="border:0;" 
+                                allowfullscreen="" 
+                                loading="lazy" 
+                                referrerpolicy="no-referrer-when-downgrade"
+                                class="rounded-lg shadow-md">
+                            </iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-gray-300 py-12">
+        <div class="container mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+                <!-- About -->
+                <div>
+                    <h3 class="text-2xl font-bold text-primary mb-4">Wanderlust</h3>
+                    <p class="text-sm">Crafting your perfect journey, one adventure at a time.</p>
+                </div>
+                <!-- Quick Links -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Quick Links</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#home" class="hover:text-primary transition-colors text-sm">Home</a></li>
+                        <li><a href="#destination" class="hover:text-primary transition-colors text-sm">Destination</a></li>
+                        <li><a href="#room" class="hover:text-primary transition-colors text-sm">Room</a></li>
+                        <li><a href="#about" class="hover:text-primary transition-colors text-sm">About Us</a></li>
+                    </ul>
+                </div>
+                <!-- Contact -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Contact Us</h4>
+                    <ul class="space-y-2 text-sm">
+                        <li>hello@wanderlust.com</li>
+                        <li>+1 (234) 567-890</li>
+                        <li>123 Travel Lane, Adventure City</li>
+                    </ul>
+                </div>
+                <!-- Social -->
+                <div>
+                    <h4 class="text-lg font-semibold text-white mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M22.46 6c-.77.35-1.6.58-2.46.67.9-.53 1.59-1.37 1.92-2.38-.84.5-1.78.86-2.79 1.07A4.27 4.27 0 0016.3 4c-2.35 0-4.27 1.92-4.27 4.27 0 .34.04.67.11.98C8.28 9.09 4.38 6.94 1.79 3.63c-.35.6-.55 1.3-.55 2.04 0 1.48.75 2.79 1.9 3.56-.7-.02-1.36-.21-1.94-.53v.05c0 2.07 1.47 3.8 3.42 4.19-.36.1-.74.15-1.14.15-.27 0-.54-.03-.8-.08.54 1.7 2.1 2.94 3.96 2.97-1.46 1.14-3.3 1.82-5.3 1.82-.34 0-.68-.02-1.01-.06 1.9 1.21 4.15 1.92 6.56 1.92 7.88 0 12.2-6.54 12.2-12.2 0-.19 0-.37-.01-.56.84-.6 1.56-1.36 2.14-2.23z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.07 1.646.07 4.85s-.012 3.584-.07 4.85c-.148 3.227-1.669 4.771-4.919 4.919-1.266.058-1.646.07-4.85.07s-3.584-.012-4.85-.07c-3.252-.148-4.771-1.691-4.919-4.919-.058-1.265-.07-1.646-.07-4.85s.012-3.584.07-4.85c.148-3.227 1.669-4.771 4.919-4.919C8.416 2.175 8.796 2.163 12 2.163zm0 1.802c-3.141 0-3.505.01-4.73.068-2.68.122-3.951 1.4-4.07 4.07-.058 1.225-.068 1.588-.068 4.73s.01 3.505.068 4.73c.12 2.67 1.39 3.951 4.07 4.07 1.225.058 1.588.068 4.73.068s3.505-.01 4.73-.068c2.67-.12 3.951-1.39 4.07-4.07.058-1.225.068-1.588.068-4.73s-.01-3.505-.068-4.73c-.12-2.67-1.39-3.951-4.07-4.07-1.225-.058-1.589-.068-4.73-.068zm0 3.582c-2.65 0-4.796 2.146-4.796 4.796s2.146 4.796 4.796 4.796 4.796-2.146 4.796-4.796S14.65 7.547 12 7.547zm0 7.796c-1.657 0-3-1.343-3-3s1.343-3 3-3 3 1.343 3 3-1.343 3-3 3zm6.406-7.85c-.767 0-1.389.622-1.389 1.389s.622 1.389 1.389 1.389 1.389-.622 1.389-1.389-.622-1.389-1.389-1.389z"/></svg>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-primary transition-colors">
+                            <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm-1.125 18.068v-6.75H8.625V8.688h2.25V6.656c0-2.22 1.334-3.438 3.333-3.438.948 0 1.76.07 2 .1v2.375h-1.4c-1.077 0-1.285.51-1.285 1.26v1.657h2.625l-.342 2.625h-2.283v6.75h-2.75z"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-700 mt-8 pt-8 text-center text-sm">
+                <p>&copy; 2025 Wanderlust. All rights reserved. Designed with <span class="text-primary">&hearts;</span>.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mobile menu toggle
+            const menuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            const menuIconOpen = document.getElementById('menu-icon-open');
+            const menuIconClose = document.getElementById('menu-icon-close');
+
+            menuButton.addEventListener('click', () => {
+                mobileMenu.classList.toggle('hidden');
+                menuIconOpen.classList.toggle('hidden');
+                menuIconClose.classList.toggle('hidden');
+            });
+            
+            // Close mobile menu when a link is clicked
+            mobileMenu.querySelectorAll('a').forEach(link => {
+                link.addEventListener('click', () => {
+                    mobileMenu.classList.add('hidden');
+                    menuIconOpen.classList.remove('hidden');
+                    menuIconClose.classList.add('hidden');
+                });
+            });
+
+            // Intersection Observer for scroll animations
+            const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        // Optional: unobserve after it's visible so it doesn't re-animate
+                        // observer.unobserve(entry.target); 
+                    }
+                });
+            }, {
+                threshold: 0.1 // Trigger when 10% of the element is visible
+            });
+
+            revealElements.forEach(el => {
+                observer.observe(el);
+            });
+            
+            // Star Rating Injector
+            // This is a simple way to duplicate the star rating template
+            const starTemplate = document.getElementById('star-rating');
+            if(starTemplate) {
+                document.querySelectorAll('.star-rating-container').forEach(container => {
+                    container.innerHTML = starTemplate.innerHTML;
+                    // Here you could randomize the stars, but for demo they are all 5
+                });
+            }
+
+        });
+    </script>
+
+</body>
+</html>
+
